@@ -10,13 +10,6 @@ public class PlayerMovement : MonoBehaviour
     public float forwardForce = 2000f;
     public float sidewaysForce = 500f;
 
-   
-    // Start is called before the first frame update
-    // use for initialization
-    void Start()
-    {
-      
-    }
 
     // Update is called once per frame
     // FixedUpdate is based on unitys physics system - 
@@ -32,22 +25,23 @@ public class PlayerMovement : MonoBehaviour
         if(Input.GetKey("d"))
         {
             Debug.Log("d pressed");
-
-            rb.AddForce(sidewaysForce  * Time.deltaTime, 0, 0);
+            // ForceMode - specifies the way in which you should add a force
+            // directly edits velocity of the object, completely ignoring its mass 
+            rb.AddForce(sidewaysForce  * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
         }
-
+        
         if (Input.GetKey("a"))
         {
             Debug.Log("a pressed");
 
-            rb.AddForce(-sidewaysForce * Time.deltaTime, 0, 0);
+            rb.AddForce(-sidewaysForce * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
         }
 
-        if (Input.GetKey("w"))
-        {
-            Debug.Log("w pressed");
-            rb.AddForce(forwardForce* 2 * Time.deltaTime, 0, 0);
-        }
+       // if (Input.GetKey("w"))
+        //{
+         //   Debug.Log("w pressed");
+          //  rb.AddForce(forwardForce* 2 * Time.deltaTime, 0, 0);
+       // }
 
     }
 }
