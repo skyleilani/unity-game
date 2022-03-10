@@ -21,5 +21,24 @@ public class PlayerCollision : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay(Collision collisionInfo)
+    {
+        if (collisionInfo.collider.tag == "Obstacle")
+        {
+            Debug.Log("in contact w collider ");
+            
+            if (Input.GetKey("d"))
+            {
+                Debug.Log("collisionStay d");
+                movement.enabled = true;
+            }
+            if (Input.GetKey("a"))
+            {
+                Debug.Log("collisionStay a");
+                movement.enabled = true;
+            }
+        }
+    }
+
 
 }
