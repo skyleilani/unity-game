@@ -12,4 +12,4 @@ Advanced work Bennington 2022
 
 [video of initial bug](https://drive.google.com/file/d/1ZmKTVZOmkKcH46sZOwlaJa-lCvVBX-wI/view?usp=sharing)
 
-[*PROGRESS video of bug!!*](https://www.youtube.com/watch?v=3v3ZlltAYKg) 
+[*PROGRESS video of bug!!*](https://youtu.be/nihNty_lZJU) 
