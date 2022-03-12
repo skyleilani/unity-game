@@ -4,14 +4,19 @@ Advanced work Bennington 2022
 
 #### Scripts
 
-
+*GenerateFractals* 
+*PlayerCollision*
+*PlayerMovement* 
+*FollowPlayer* 
 
 #### Currently debugging... 
 
 - [ ] *PlayerCollision Script* - possibly in OnCollisionStay: when player hits an obstacle and stays in contact for more than a frame, the obstacle and the player get stuck together until one of them falls off of the playing ground 
-- [ ] shadows ?? 
-- [ ] score update 
-- [ ] fractal script - get intiator shape to show and change depending on selection
+- [ ] *GenerateFractals Script*- get intiator shape to show and change depending on selection
+- [ ] shadows? 
+
+## Features Integrating 
+
 
 [video of initial bug](https://drive.google.com/file/d/1ZmKTVZOmkKcH46sZOwlaJa-lCvVBX-wI/view?usp=sharing)
 
