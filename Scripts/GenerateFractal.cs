@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class GenerateFractals : MonoBehaviour
 {
-    // set initiator shape for fractal 
+    // Serialized: set initiator shape for fractal 
     // only classes that inherit this class can access _initiator variable 
-    // enum (iterable?) object type, named constants of underlying int types 
-     
+    // enum (iterable?) object type, named constants of underlying int types  
     protected enum _initiator
     {
          Triangle, 
@@ -17,7 +16,6 @@ public class GenerateFractals : MonoBehaviour
          Heptagon, 
          Octagon
     };
-    // protected _initiator won't show up in the inspector unless we serialize the field 
     [SerializeField]
 
     // instance of object type _initiator 
@@ -29,12 +27,13 @@ public class GenerateFractals : MonoBehaviour
     // stores all the initiator points 
     private Vector3[] _initiatorPoint;
 
-     // rotate vector 
+     //Serialized:  rotate vector 
      private Vector3 _rotateVector;
+    [SerializeField]
 
     // define initiator size 
     protected float _initiatorSize;
-    [SerializeField]
+
 
     private void OnDrawGizmos()
     {
@@ -55,6 +54,8 @@ public class GenerateFractals : MonoBehaviour
         for (int i = 0; i < _initiatorPointAmount; i++ )
         {
 
+            // we start with the rotateVector multiplied by  on the first iteration 
+            _initiatorPoint[i] = _rotateVector * _initiatorSize; 
         }
 
     }
