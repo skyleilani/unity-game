@@ -26,5 +26,4 @@ Advanced work Bennington 2022
 #### Features Integrating ... #### 
 
 - [ ] collect 
-- [ ] save game state to memory and go back?! (this would be much later) 
-
+- [ ] save game state to memory and go back would be amazing
