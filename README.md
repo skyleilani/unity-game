@@ -23,5 +23,8 @@ Advanced work Bennington 2022
 - [ ] *GenerateFractals Script*- get intiator shape to show and change depending on selection
 - [ ] shadows? 
 
-## Features Integrating 
+#### Features Integrating ... #### 
+
+- [ ] collect 
+- [ ] save game state to memory and go back?! (this would be much later) 
 
