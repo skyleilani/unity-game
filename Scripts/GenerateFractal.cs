@@ -9,12 +9,12 @@ public class GenerateFractals : MonoBehaviour
     // enum (iterable?) object type, named constants of underlying int types  
     protected enum _initiator
     {
-         Triangle, 
-         Square, 
-         Pentagon, 
-         Hexagon, 
-         Heptagon, 
-         Octagon
+         Triangle = 3, 
+         Square = 4, 
+         Pentagon = 5, 
+         Hexagon = 6, 
+         Heptagon = 7 , 
+         Octagon  = 8 
     };
     [SerializeField]
 
@@ -31,16 +31,19 @@ public class GenerateFractals : MonoBehaviour
      private Vector3 _rotateVector;
     [SerializeField]
 
+    // specify which axis you are rotating along 
+    private Vector3 _rotateAxis; 
+
+    [SerializeField]
     // define initiator size 
     protected float _initiatorSize;
 
 
+    // place a point in a certain direction at a certain length and then rotate
+    // the vector by 360 / initiator point amount 
     private void OnDrawGizmos()
     {
         GetInitiatorPoints();
-
-        // place a point in a certain direction at a certain length and then rotate
-        // the vector by 360 / initiator point amount  
 
         // new vector 3 with a length of the initiatorPointAmount  
         _initiatorPoint = new Vector3[_initiatorPointAmount];
@@ -49,13 +52,43 @@ public class GenerateFractals : MonoBehaviour
         // Vector is revolving around the z axis 
         _rotateVector = new Vector3(0, 0, 1);
 
-        // fill _initiatorPointAmount array with all the points we need, every time
+        _rotateAxis = new Vector3(0, 1, 0);  
+
+        // fill _initiatorPointAmount array with all the points in the initiator shape, every time
         // it's filled with a point, vector rotates a certain rotation 
         for (int i = 0; i < _initiatorPointAmount; i++ )
-        {
-
+        { 
             // we start with the rotateVector multiplied by  on the first iteration 
-            _initiatorPoint[i] = _rotateVector * _initiatorSize; 
+            _initiatorPoint[i] = _rotateVector * _initiatorSize;
+
+            // rotate _rotateVector by a specific angle per point in selected shape  
+            // angle - 360/amount of points in selected initiator shape 
+            // axis - 
+            _rotateVector = Quaternion.AngleAxis(360/ _initiatorPointAmount, _rotateAxis) * _rotateVector; 
+            // Quaternion.AngleAxis - creates a rotation which rotatoes "angle" degrees around "axis" 
+            // syntax: Quaternion.AngleAxis(angle, axis); 
+        }
+
+        for(int i = 0; i < _initiatorPointAmount; i++)
+        {
+            Gizmos.color = Color.white;
+
+            // next 2 lines allows rotation in unity 
+            // create rotation matrix
+            Matrix4x4 rotationMatrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.lossyScale);
+            // apply rotation matrix to gizmos 
+            Gizmos.matrix = rotationMatrix;
+
+            // check if it's the last line, the last line should return to line zero
+            if(i< _initiatorPointAmount - 1 )
+            {
+                Gizmos.DrawLine(_initiatorPoint[i], _initiatorPoint[i + 1]);
+            }
+            else
+            {
+                Gizmos.DrawLine(_initiatorPoint[i], _initiatorPoint[0]);
+
+            }
         }
 
     }
