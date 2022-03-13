@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class GenerateFractals : MonoBehaviour
 {
+    //!!!! ISSUE: SHOULD B ABLE TO ASSIGN INT VALUES TO ENUMS & SKIP SWITCH STEP 
+    // ASSIGN IT DIRECTION INITIATORPOINTAMOUNT = (INT) _INITIATOR; ??? 
+
     // Serialized: set initiator shape for fractal 
     // only classes that inherit this class can access _initiator variable 
     // enum (iterable?) object type, named constants of underlying int types  
     protected enum _initiator
     {
-         Triangle = 3, 
-         Square = 4, 
-         Pentagon = 5, 
-         Hexagon = 6, 
-         Heptagon = 7 , 
-         Octagon  = 8 
+         Triangle, 
+         Square , 
+         Pentagon, 
+         Hexagon , 
+         Heptagon  , 
+         Octagon 
     };
     [SerializeField]
 
@@ -134,9 +137,6 @@ public class GenerateFractals : MonoBehaviour
 
         }
     }
-
-
-   
 
     // Start is called before the first frame update
     void Start()
