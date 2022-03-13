@@ -134,19 +134,6 @@ public class GenerateFractals : MonoBehaviour
                 _initiatorPointAmount = 3;
 
                 break; 
-
         }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
