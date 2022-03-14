@@ -3,6 +3,8 @@ Shader "Explorer/Mandelbrot"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        // holds area we will render (center, center, size, size) 
+        _Area("Area", vector) = (0, 0, 4, 4)
     }
     SubShader
     {
@@ -37,6 +39,9 @@ Shader "Explorer/Mandelbrot"
                 return o;
             }
 
+            // we will build our start value based on this area 
+            float4 _Area; 
+
             sampler2D _MainTex;
 
             fixed4 frag(v2f i) : SV_Target
@@ -44,7 +49,7 @@ Shader "Explorer/Mandelbrot"
                 // mandelbrot fractal algorithm 
 
                 // start with start position, initialize to uv coordinate. 
-                float2 start = i.uv; 
+                float2 start = _Area.xy + (i.uv- 0.5) * _Area.zw; // .zw = last two coords (x, y, z, w) from _Area (4, 4) 
 
                 // keep track of where pixel is jumping across the string
                 float2 track; 
