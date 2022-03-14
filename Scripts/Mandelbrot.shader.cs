@@ -1,3 +1,5 @@
+// https://www.youtube.com/watch?v=kY7liQVPQSc
+
 Shader "Explorer/Mandelbrot"
 {
     Properties
