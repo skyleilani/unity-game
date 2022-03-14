@@ -51,7 +51,7 @@ Shader "Explorer/Mandelbrot"
                 // start with start position, initialize to uv coordinate. 
                 float2 start = _Area.xy + (i.uv- 0.5) * _Area.zw; // .zw = last two coords (x, y, z, w) from _Area (4, 4) 
 
-                // keep track of where pixel is jumping across the string
+                // keep track of where pixel is jumping across the screen
                 float2 track; 
 
                 for (float i = 0; i < 255; i++) {
