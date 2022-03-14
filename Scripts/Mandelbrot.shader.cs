@@ -6,7 +6,7 @@ Shader "Explorer/Mandelbrot"
     {
         _MainTex ("Texture", 2D) = "white" {}
         // holds area we will render (center, center, size, size) 
-        _Area("Area", vector) = (0, 0, 4, 4)
+        _Area("Area", vector) = (0, 0, 4 , 4)
     }
     SubShader
     {
@@ -53,18 +53,18 @@ Shader "Explorer/Mandelbrot"
                 // start with start position, initialize to uv coordinate. 
                 float2 start = _Area.xy + (i.uv- 0.5) * _Area.zw; // .zw = last two coords (x, y, z, w) from _Area (4, 4) 
 
-                // keep track of where pixel is jumping across the screen
+                // keep track of where pixel is jumping across the string
                 float2 track; 
 
                 for (float i = 0; i < 255; i++) {
                     // update track value based on previous track value
-                    track = float2(track.x * track.x - track.y * track.y, 2 * track.x * track.y) + start; 
+                    track = float2(track.x * track.x * 80 - track.y  * track.y * 4, 4 * track.x * track.y) + start* 0.5; 
 
                     // breakout of loop
                     if (length(track) > 2) break; 
                 }
 
-                return i/255;
+                return i/10;
             }
             ENDCG
         }
