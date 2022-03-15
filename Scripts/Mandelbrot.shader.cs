@@ -1,4 +1,4 @@
-// https://www.youtube.com/watch?v=kY7liQVPQSc
+// shader based on https://www.youtube.com/watch?v=kY7liQVPQSc
 
 
 Shader "Explorer/Mandelbrot"
