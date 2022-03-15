@@ -4,8 +4,9 @@ public class PlayerCollision : MonoBehaviour
 {
     public PlayerMovement movement;
     public Rigidbody rb; 
-    public int Timer;
-    public float m_Thrust = 20f;
+    protected int Timer;
+    protected float sidewaysForce = 500f;
+    protected float m_Thrust = 20f;
 
     private void OnCollisionEnter(Collision collisionInfo)
     {
@@ -28,9 +29,9 @@ public class PlayerCollision : MonoBehaviour
     {
         if (collisionInfo.collider.tag == "Obstacle")
         {
-            Debug.Log("in contact w collider ");
+            //Debug.Log("in contact w collider ");
             Timer += 1;
-            Debug.Log(Timer);
+           // Debug.Log(Timer);
 
             // if the player's rigidbody has been in contact with the Obstacle object for
             // more than 3 seconds, I want there to be a force to stop it from staying in contact 
@@ -43,6 +44,8 @@ public class PlayerCollision : MonoBehaviour
             if (Input.GetKey("d"))
             {
                 Debug.Log("collisionStay d");
+                rb.AddForce(-sidewaysForce* 2 * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
+
                 movement.enabled = true;               
             }
 
