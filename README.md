@@ -19,6 +19,7 @@ Advanced work Bennington 2022
      -- [video of initial bug](https://drive.google.com/file/d/1ZmKTVZOmkKcH46sZOwlaJa-lCvVBX-wI/view?usp=sharing)
 
      -- [*PROGRESS video of bug!!*](https://youtu.be/nihNty_lZJU) 
+     -- actually still not done debugging movement but it's a work in progress as other scripts evolve. 
 
 - [ ] *GenerateFractals Script*- get intiator shape to show and change depending on selection
 - [ ] shadows? 
