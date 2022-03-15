@@ -1,5 +1,6 @@
 // https://www.youtube.com/watch?v=kY7liQVPQSc
 
+
 Shader "Explorer/Mandelbrot"
 {
     Properties
@@ -43,11 +44,12 @@ Shader "Explorer/Mandelbrot"
 
             // we will build our start value based on this area 
             float4 _Area; 
-
+            
             sampler2D _MainTex;
 
             fixed4 frag(v2f i) : SV_Target
             {
+
                 // mandelbrot fractal algorithm 
 
                 // start with start position, initialize to uv coordinate. 
@@ -58,7 +60,7 @@ Shader "Explorer/Mandelbrot"
 
                 for (float i = 0; i < 255; i++) {
                     // update track value based on previous track value
-                    track = float2(track.x * track.x * 80 - track.y  * track.y * 4, 4 * track.x * track.y) + start* 0.5; 
+                    track = float2(track.x*track.x-track.y*track.y, 2*track.x * track.y ) + start ; 
 
                     // breakout of loop
                     if (length(track) > 2) break; 
