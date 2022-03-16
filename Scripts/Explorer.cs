@@ -51,7 +51,7 @@ public class Explorer : MonoBehaviour
     private void UpdateShader()
     {
 
-        // Lerp( start_val - when t=0, end_val - when t=1, t - interpolant value) ) 
+        // LinearInerpolation( start_val - when t=0, end_val - when t=1, t - interpolant value) ) 
         // RETURNS start_val + (end_val - start_val) * t 
         // position will interpolate between #s
         smoothPos = Vector2.Lerp(smoothPos, pos, 0.03f);
