@@ -23,20 +23,20 @@ public class Explorer : MonoBehaviour
             //reduce scale by 1% each time
             scale *= .99f;
         if (Input.GetKey("a"))
-            pos.x -= .01f * scale;
+            pos.x -= .002f * scale;
         if (Input.GetKey("s"))
             //increase scale by 1% each time
             scale *= 1.01f;       
         if (Input.GetKey("d"))
-            pos.x += .01f * scale;
+            pos.x += .002f * scale;
 
         // qe rotation
         if (Input.GetKey("e"))
             //reduce scale by 1% each time
-            angle += .005f;
+            angle += .01f;
         if (Input.GetKey("q"))
             //reduce scale by 1% each time
-            angle -= .005f;
+            angle -= .01f;
     }
     private void UpdateShader()
     {
