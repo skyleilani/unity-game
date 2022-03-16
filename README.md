@@ -11,8 +11,11 @@ Advanced work Bennington 2022
 
 [preview](https://youtu.be/cfsdsM9RSDk)
 
+*****************************************************
+
 -- *GenerateFractals* 
 
+*****************************************************
 
 -- *PlayerCollision*
 
@@ -23,6 +26,9 @@ Advanced work Bennington 2022
 -- *OnCollection* 
 
 [preview](https://youtu.be/vuMkQGmQhTs)
+
+*****************************************************
+
 
 #### Currently debugging... ####
 
