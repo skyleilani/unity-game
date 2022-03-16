@@ -1,5 +1,6 @@
 // shader based on https://www.youtube.com/watch?v=kY7liQVPQSc
 
+
 Shader "Explorer/Mandelbrot"
 {
     Properties
@@ -47,6 +48,24 @@ Shader "Explorer/Mandelbrot"
             sampler2D _MainTex;
 
             // function rotate point in 2d space 
+            // og_p - original point
+            // piv_p -pivot point around which to rotate
+            // a - angle
+            float2 rotate(float2 og_p, float piv_p, float a) {
+
+                float s = sin(a);
+                float c = cos(a);
+
+                // set og_p to 00
+                og_p -= piv_p;
+
+                // rotate the original point 
+                // new x = original point's X * cosine(angle) - original point's Y *sin(angle) 
+                // new y = original point's X * sin(angle) + original point's Y * cosine(angle) 
+                og_p = float2(og_p.x*c - og_p.y*s, og_p.x*s + og_p.y*c);
+
+                
+            }
             fixed4 frag(v2f i) : SV_Target
             {
 
