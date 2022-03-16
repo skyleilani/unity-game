@@ -1,5 +1,7 @@
 using UnityEngine;
 
+//  FollowPlayer.cs - Attached to camera object, keeps the cameras focus on the player's game object. 
+
 public class FollowPlayer : MonoBehaviour
 {
     // remember transform is used whenever we are getting info about position, rotation, or scale
