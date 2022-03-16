@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Explorer : MonoBehaviour
@@ -16,37 +14,29 @@ public class Explorer : MonoBehaviour
     // to handle user input 
     private void UserInput()
     {
-
         // creating rotation for dir 
         float s = Mathf.Sin(angle);
         float c = Mathf.Cos(angle);
 
-        // wasd (in, out, L, R)
-        
+        // wasd (in, out, L, R)      
         if (Input.GetKey("w"))
             //reduce scale by 1% each time
-            scale *= .99f;
-        
-
+            scale *= .99f;        
         if (Input.GetKey("a"))
-            pos.x -= .002f * scale;
-
-        
+            pos.x -= .002f * scale;      
         if (Input.GetKey("s"))
             //increase scale by 1% each time
             scale *= 1.01f;       
-        
-
         if (Input.GetKey("d"))
             pos.x += .002f * scale;
 
         // qe rotation
         if (Input.GetKey("e"))
             //reduce scale by 1% each time
-            angle += .01f;
+            angle += .002f;
         if (Input.GetKey("q"))
             //reduce scale by 1% each time
-            angle -= .01f;
+            angle -= .002f;
     }
     private void UpdateShader()
     {
