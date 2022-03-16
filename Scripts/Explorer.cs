@@ -21,6 +21,10 @@ public class Explorer : MonoBehaviour
         // account for when rotation is at 90 deg 
         Vector2 dir = new Vector2(1, 0);
 
+        // creating rotation for dir 
+        float s = Mathf.Sin(angle);
+        float c = Mathf.Cos(angle);
+        dir = new Vector2(dir.x*c - dir.y*s, dir.x*s+dir.y*c); 
         // wasd (in, out, L, R)
         /*
         if (Input.GetKey("w"))
@@ -29,7 +33,7 @@ public class Explorer : MonoBehaviour
         */
 
         if (Input.GetKey("a"))
-            pos -= dir;
+            pos.x -= .002f * scale;
 
         /*
         if (Input.GetKey("s"))
@@ -38,7 +42,7 @@ public class Explorer : MonoBehaviour
         */
 
         if (Input.GetKey("d"))
-            pos += dir; 
+            pos.x += .002f * scale;
 
         // qe rotation
         if (Input.GetKey("e"))
