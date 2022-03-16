@@ -34,7 +34,7 @@ Advanced work Bennington 2022
      
      -- [*recent: progress video of bug*](https://youtu.be/wdY-C9WeHmE)
      
-     -- [*recent: progress video of another bug lol *](https://youtu.be/Msb6HGaBh7E)
+     -- [*recent: progress video of another bug lol*](https://youtu.be/Msb6HGaBh7E)
      
      
 
