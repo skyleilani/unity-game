@@ -1,5 +1,3 @@
-
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,28 +16,26 @@ public class Explorer : MonoBehaviour
     // to handle user input 
     private void UserInput()
     {
-        // account for when rotation is at 90 deg 
-        Vector2 dir = new Vector2(1, 0);
 
         // creating rotation for dir 
         float s = Mathf.Sin(angle);
         float c = Mathf.Cos(angle);
-        dir = new Vector2(dir.x*c - dir.y*s, dir.x*s+dir.y*c); 
+
         // wasd (in, out, L, R)
-        /*
+        
         if (Input.GetKey("w"))
             //reduce scale by 1% each time
             scale *= .99f;
-        */
+        
 
         if (Input.GetKey("a"))
             pos.x -= .002f * scale;
 
-        /*
+        
         if (Input.GetKey("s"))
             //increase scale by 1% each time
             scale *= 1.01f;       
-        */
+        
 
         if (Input.GetKey("d"))
             pos.x += .002f * scale;
@@ -55,7 +51,7 @@ public class Explorer : MonoBehaviour
     private void UpdateShader()
     {
 
-        // Lerp( start_val - when t=0, end_val - when t=1, t - interpolation value) ) 
+        // Lerp( start_val - when t=0, end_val - when t=1, t - interpolant value) ) 
         // RETURNS start_val + (end_val - start_val) * t 
         // position will interpolate between #s
         smoothPos = Vector2.Lerp(smoothPos, pos, 0.03f);
