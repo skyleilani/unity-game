@@ -1,71 +1,74 @@
 // shader based on https://www.youtube.com/watch?v=kY7liQVPQSc
 
-
-
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Explorer : MonoBehaviour
+Shader "Explorer/Mandelbrot"
 {
-
-    public Material mat;
-
-    public Vector2 pos;
-    private Vector2 smoothPos;
-
-    public float scale;
-    private float smoothScale; 
-
-    // to handle user WASD input 
-    private void UserInput()
+    Properties
     {
-        if (Input.GetKey("w"))
-        {
-            //reduce scale by 1% each time
-            scale *= .99f;
-        }
-
-        if (Input.GetKey("a"))
-        {
-            pos.x -= .001f * scale;
-        }
-
-        if (Input.GetKey("s"))
-        {
-            //increase scale by 1% each time
-            scale *= 1.01f;
-        }
-       
-        if (Input.GetKey("d"))
-        {
-            pos.x += .001f * scale;
-        }
+        _MainTex ("Texture", 2D) = "white" {}
+        // holds area we will render (center, center, size, size) 
+        _Area("Area", vector) = (0, 0, 4 , 4)
     }
-    private void UpdateShader()
+    SubShader
     {
-        // position will interpolate between 
-        smoothPos = Vector2.Lerp(smoothPos, pos, 0.5f);
-        // fix resizing of fractal to aspect ratio of the screen
-        float aspect = (float)Screen.width / (float)Screen.height;
-        float scaleX = scale;
-        float scaleY = scale;
+        // No culling or depth
+        Cull Off ZWrite Off ZTest Always
 
-        // if the aspect is larger than 1 then Screen width must be a larger # than Screen height  
-        if (aspect > 1f)
+        Pass
+        {
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
 
-            scaleY /= aspect;
+            #include "UnityCG.cginc"
 
-        else
-            scaleX *= aspect;
-        // sets _Area vector4(x, y , z, w ) 
-        // pos.x - x component of Vector2 ; pos.y - y component of Vector2 
-        mat.SetVector("_Area", new Vector4(pos.x, pos.y, scaleX, scaleY)); // setting _Area vector4 (x, y, z, w) 
-    }
+            struct appdata
+            {
+                float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
+            };
 
-    void FixedUpdate()
-    {
-        UserInput(); 
-        UpdateShader();
+            struct v2f
+            {
+                float2 uv : TEXCOORD0;
+                float4 vertex : SV_POSITION;
+            };
+
+            v2f vert (appdata v)
+            {
+                v2f o;
+                o.vertex = UnityObjectToClipPos(v.vertex);
+                o.uv = v.uv;
+                return o;
+            }
+
+            // we will build our start value based on this area 
+            float4 _Area; 
+            
+            sampler2D _MainTex;
+
+            // function rotate point in 2d space 
+            fixed4 frag(v2f i) : SV_Target
+            {
+
+                // mandelbrot fractal algorithm 
+
+                // start with start position, initialize to uv coordinate. 
+                float2 start = _Area.xy + (i.uv- 0.5) * _Area.zw; // .zw = last two coords (x, y, z, w) from _Area (4, 4) 
+
+                // keep track of where pixel is jumping across the string
+                float2 track; 
+
+                for (float i = 0; i < 255; i++) {
+                    // update track value based on previous track value
+                    track = float2(track.x*track.x-track.y*track.y, 2*track.x * track.y ) + start ; 
+
+                    // breakout of loop
+                    if (length(track) > 2) break; 
+                }
+
+                return i/20;
+            }
+            ENDCG
+        }
     }
 }
