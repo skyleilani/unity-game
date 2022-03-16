@@ -18,17 +18,27 @@ public class Explorer : MonoBehaviour
     // to handle user input 
     private void UserInput()
     {
+        // account for when rotation is at 90 deg 
+        Vector2 dir = new Vector2(1, 0);
+
         // wasd (in, out, L, R)
+        /*
         if (Input.GetKey("w"))
             //reduce scale by 1% each time
             scale *= .99f;
+        */
+
         if (Input.GetKey("a"))
-            pos.x -= .002f * scale;
+            pos -= dir;
+
+        /*
         if (Input.GetKey("s"))
             //increase scale by 1% each time
             scale *= 1.01f;       
+        */
+
         if (Input.GetKey("d"))
-            pos.x += .002f * scale;
+            pos += dir; 
 
         // qe rotation
         if (Input.GetKey("e"))
