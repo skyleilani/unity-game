@@ -15,31 +15,28 @@ public class Explorer : MonoBehaviour
     public float scale, angle;
     private float smoothScale, smoothAngle; 
 
-    // to handle user WASD input 
+    // to handle user input 
     private void UserInput()
     {
-        if (Input.GetKey("e"))
-            //reduce scale by 1% each time
-            angle += .01f;
-
-        if (Input.GetKey("q"))
-            //reduce scale by 1% each time
-            angle -= .01f;
-
+        // wasd (in, out, L, R)
         if (Input.GetKey("w"))
             //reduce scale by 1% each time
             scale *= .99f;
-
         if (Input.GetKey("a"))
-            pos.x -= .001f * scale;
-
+            pos.x -= .01f * scale;
         if (Input.GetKey("s"))
             //increase scale by 1% each time
-            scale *= 1.01f;
-             
+            scale *= 1.01f;       
         if (Input.GetKey("d"))
-            pos.x += .001f * scale;
-        
+            pos.x += .01f * scale;
+
+        // qe rotation
+        if (Input.GetKey("e"))
+            //reduce scale by 1% each time
+            angle += .005f;
+        if (Input.GetKey("q"))
+            //reduce scale by 1% each time
+            angle -= .005f;
     }
     private void UpdateShader()
     {
