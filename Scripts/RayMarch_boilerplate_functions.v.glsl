@@ -2,6 +2,7 @@
 #define MAX_DIST 100.
 #define MAX_STEPS 100 
 
+
 float GetDist(vec3 p) 
 {
     // sphere
@@ -56,11 +57,15 @@ vec3 GetNormal(vec3 p) {
         GetDist(p-e.yxy), 
         GetDist(p-e.yyx)); 
         
-return normalize(n);
+    return normalize(n);
 }
 
 float GetLight(vec3 p) { 
+
     vec3 lightPos = vec3(0, 5, 6);
+    
+    // make light move overhead 
+    lightPos.xz += vec2(sin(iTime), cos(iTime))*2.; 
     
     // light vector (unit vector) 
     vec3 l = normalize(lightPos-p);
@@ -69,7 +74,12 @@ float GetLight(vec3 p) {
     vec3 n = GetNormal(p);
     
     // difuse  lighting by getting dot product of n and l 
-    float dif = dot(n, l); 
+    float dif = clamp(dot(n, l), 1., 1.); 
+    float d = RayMarch(p, l);
+    
+    // finds shadow on if statement 
+    // in shadow it's only 10% as bright as outside of the shadow. 
+    if(d<length(lightPos-p)) dif *= .1; 
     
     
     return dif;
@@ -91,6 +101,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     // sets rd to a unit vector disregarding mag
     vec3 rd = normalize(vec3(uv.x,uv.y,1));
     
+    
     // Output to screen
     float d = RayMarch(ro, rd);
     
@@ -103,6 +114,8 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     
     // check GetNormal function, should turn sphere red bc it turns the x - 1 and y z to 0 
     // col = GetNormal(p); 
+    
+    
     
     fragColor = vec4(col,1.0);
 }
