@@ -58,7 +58,10 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     // sets rd to a unit vector disregarding mag
     vec3 rd = normalize(vec3(uv.x,uv.y,1));
     
-    // 
+    
     // Output to screen
+    float d = RayMarch(ro, rd);
+    d /= 8.;
+    col = vec3(d);
     fragColor = vec4(col,1.0);
 }
