@@ -42,6 +42,11 @@ float RayMarch(vec3 ro, vec3 rd)
     return dO;
 }
 
+float GetLight(vec3 p) { 
+return 1.;
+
+}
+
 void mainImage( out vec4 fragColor, in vec2 fragCoord )
 {
     // normalize 
@@ -61,7 +66,13 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     
     // Output to screen
     float d = RayMarch(ro, rd);
-    d /= 8.;
-    col = vec3(d);
+    
+    vec3 p = ro + rd * d;
+    
+    //difuse lighting 
+    float dif = GetLight(p); 
+    // use dif to shade 
+    col = vec3(dif); 
+    
     fragColor = vec4(col,1.0);
 }
