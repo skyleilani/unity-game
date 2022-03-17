@@ -15,9 +15,11 @@ Advanced work Bennington 2022
 
 -- *GenerateFractals* 
 
+--*Raymarch.v.gsl* 
+
 *****************************************************
 
--- *RayMarch.v.glsl*
+-- *RayMarch_boilerplate_functions.v.glsl*
 
 [preview](https://youtu.be/0UrKCf3O7a4)
 *****************************************************
