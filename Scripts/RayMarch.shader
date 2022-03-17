@@ -42,9 +42,36 @@ float RayMarch(vec3 ro, vec3 rd)
     return dO;
 }
 
-float GetLight(vec3 p) { 
-return 1.;
+// returns Normal Vector based on slope
+vec3 GetNormal(vec3 p) { 
 
+    // distance at point p 
+    float d = GetDist(p); 
+    
+    // evaluate distance to the surface at points around p 
+    vec2 e = vec2( .01, 0); 
+    
+    vec3 n = d - vec3(
+    // the distances very close to point p
+        GetDist(p-e.xyy), 
+        GetDist(p-e.yxy), 
+        GetDist(p-e.yyx)); 
+        
+return normalize(n);
+}
+
+float GetLight(vec3 p) { 
+
+    vec3 lightPos = vec3(0, 5, 6);
+    
+    // light vector (unit vector) 
+    vec3 l = normalize(lightPos-p);
+    
+    // normal vector (unit vector) 
+    vec3 n = GetNormal(p);
+    
+    // placeholder val
+    return 1.;
 }
 
 void mainImage( out vec4 fragColor, in vec2 fragCoord )
