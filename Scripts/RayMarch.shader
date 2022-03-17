@@ -1,56 +1,64 @@
-Shader "Unlit/RayMarch"
+#define SURF_DIST.01
+#define MAX_DIST 100.
+#define MAX_STEPS 100 
+
+
+float GetDist(vec3 p) 
 {
-    Properties
-    {
-        _MainTex ("Texture", 2D) = "white" {}
+    // sphere
+    vec4 s = vec4(0, 1, 6 , 1);
+    
+    // .xyz = pos ; .w = radius 
+    float sDist = length(p - s.xyz)-s.w; 
+    
+    // get distance from plane 
+    float pDist = p.y; 
+    
+    // total distance
+    float d = min(sDist, pDist); 
+    return d; 
+}
+
+float RayMarch(vec3 ro, vec3 rd) 
+{
+    // keep track of distance marched from origin
+    float dO=0.; 
+    
+    // marching loop 
+    for(int i=0; i < MAX_STEPS; i++) {
+    
+        // current marching location
+        vec3 p = ro + rd*dO;
+        
+        // distance to scene
+        float dS = GetDist(p);
+        
+        dO += dS; 
+        
+        // prevent infininte marching
+        if(dO>MAX_DIST || dS<SURF_DIST) break;
     }
-    SubShader
-    {
-        Tags { "RenderType"="Opaque" }
-        LOD 100
+    
+    return dO;
+}
 
-        Pass
-        {
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-            
+void mainImage( out vec4 fragColor, in vec2 fragCoord )
+{
+    // normalize 
+    vec2 uv = (fragCoord - 0.5*iResolution.xy)/iResolution.y;
 
-            #include "UnityCG.cginc"
-
-            struct appdata
-            {
-                float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
-            };
-
-            struct v2f
-            {
-                float2 uv : TEXCOORD0;
-                UNITY_FOG_COORDS(1)
-                float4 vertex : SV_POSITION;
-            };
-
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
-
-            v2f vert (appdata v)
-            {
-                v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                UNITY_TRANSFER_FOG(o,o.vertex);
-                return o;
-            }
-
-            fixed4 frag (v2f i) : SV_Target
-            {
-                // sample the texture
-                fixed4 col = 0;
-               
-                return col;
-            }
-            ENDCG
-        }
-    }
+    vec3 col = vec3(0);
+    
+    // camera model 
+    
+    // ro - ray origin (camera location) 
+    vec3 ro = vec3(0, 1, 0); 
+    
+    // rd = ray direction
+    // sets rd to a unit vector disregarding mag
+    vec3 rd = normalize(vec3(uv.x,uv.y,1));
+    
+    // 
+    // Output to screen
+    fragColor = vec4(col,1.0);
 }
