@@ -7,14 +7,14 @@ Advanced work Bennington 2022
 
 -- *Explorer* 
 
--- *Mandelbrot.shader* 
+-- *Mandelbrot.v.glsl* 
 
 [preview](https://youtu.be/cfsdsM9RSDk)
 
 *****************************************************
 
 -- *GenerateFractals* 
-
+-- *RayMarch.v.glsl*
 *****************************************************
 
 -- *PlayerCollision*
