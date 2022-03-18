@@ -29,25 +29,35 @@ Shader "Unlit/RayMarch"
             };
         
 
-              // vertex to fragment 
-             // data structure that gets sent from vertex shader to fragment shader
+             // vertex to fragment 
+            // data structure that gets sent from vertex shader to fragment shader
             struct v2f
             {
-                float2 uv : TEXCOORD0;
-                UNITY_FOG_COORDS(1)
+                // datatype var_name : WHICH_REGISTER_FOR_GPU
+                // tell gpu which register to use to store each var & its contained data
+                // make sure you don't assign a register twice 
+
+                float2 uv : TEXCOORD0;       
                 float4 vertex : SV_POSITION;
+                float3 ro : TEXCOORD1;
+                float3 hitPos : TEXCOORD2;   // hit position
             };
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
-            
+            // vertex shader 
             v2f vert (appdata v)
             {
                 v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                UNITY_TRANSFER_FOG(o,o.vertex);
+                o.vertex = UnityObjectToClipPos(v.vertex); // vertex
+                o.uv = TRANSFORM_TEX(v.uv, _MainTex); // uv coord
+
+                // ray origin 
+                // _WorldSpaceCameraPos is float3
+                o.ro = _WorldSpaceCameraPos;
+
+                o.hitPos = v.vertex;
                 return o;
             }
 
@@ -102,32 +112,26 @@ Shader "Unlit/RayMarch"
                 return normalize(n);
             }
 
-            // main fragment shader 
-
+            // fragment shader to SV_Target register
             fixed4 frag(v2f i) : SV_Target
-            {
+            { 
+                float2 uv = i.uv-.5; // set origin to the middle of cube
 
-                // set origin to the middle of cube
-                float2 uv = i.uv - .5;
                 //camera looking at origin 
-                float3 ro = float3(0,0,-3);
-                float3 rd = normalize(float3(uv.x, uv.y, 1));
+                float3 ro = i.ro;
 
+                float3 rd = normalize(i.hitPos-ro);
                 float d = RayMarch(ro, rd);
+
                 // sample the texture
                 fixed4 col = 0;
 
                 // if distance is smaller than max distance, you hit your surface
-                if (d < MAX_DIST) {
-
-                    // calculate point where surface was hit by ray 
-                    float3 p = ro + rd * d; 
-
+                if (d < MAX_DIST) {  
+                    float3 p = ro + rd * d; // calculate point where surface was hit by ray 
+                    float3 n = GetNormal(p); // normal vector
                     
-                    float3 n = GetNormal(p);
-
-                    // debug: test to see if n is working 
-                    col.rgb = n;
+                    col.rgb = n; // debug: test to see if n is working
                     
                 }
                
