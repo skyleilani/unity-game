@@ -1,5 +1,4 @@
 // shader based on https://www.youtube.com/watch?v=kY7liQVPQSc
-
 //  z = z^2+c
 // every step, check how far you are from origin 
 // if you're past the radius of the outer circle), then escape the loop 
@@ -32,6 +31,8 @@ Shader "Explorer/Mandelbrot"
 
             _Repeat("Repeat", float) = 1
             _Speed("Speed", float) = 1
+            _Symmetry("Symmetry", range(0,1)) = 1
+
 
     }
     SubShader
@@ -74,7 +75,7 @@ Shader "Explorer/Mandelbrot"
             // instantiate 
             float4 _Area;
            
-            float _MaxIter, _Angle, _Color, _Repeat, _Speed;
+            float _MaxIter, _Angle, _Color, _Repeat, _Speed, _Symmetry;
             sampler2D _MainTex;
 
             // function rotate point in 2d space 
@@ -102,10 +103,17 @@ Shader "Explorer/Mandelbrot"
             // fragment shadder
             fixed4 frag(v2f i) : SV_Target
             {
-                 // mandelbrot fractal algorithm  
-                // V = V^2 + C
+
                 // start position of pixel, initialized to uv coordinate. 
-                float2 C = _Area.xy + (i.uv - 0.5) * _Area.zw; // .zw = last two coords (x, y, z, w) from _Area (4, 4) 
+                float2 uv = i.uv - .5; // uv centered around origin 
+                // four fold symmetry 
+                uv = abs(uv);
+                uv = rotate(uv, 0, .25 * 3.14159265);
+                uv = abs(uv);
+
+                uv = lerp(i.uv - .5, uv, _Symmetry);
+
+                float2 C = _Area.xy + uv* _Area.zw; 
                 C = rotate(C, _Area.xy, _Angle);
 
                 float r = 50; // escape radius 
@@ -117,7 +125,7 @@ Shader "Explorer/Mandelbrot"
                 
 
                 for (float i = 0; i < 255; i++) {
-                    zPrev = z;
+                    zPrev = rotate(z, 0, _Time.y);
                     z = float2(z.x * z.x - z.y * z.y, 2 * z.x * z.y) + C;
                     // breakout of loop
                     if (dot(z, zPrev) > r) break; 
@@ -135,8 +143,11 @@ Shader "Explorer/Mandelbrot"
                 float4 rgba = sin(float4(.98f,(m * .3f)*.5 + .5, .65f, 1)*m*20)*.5+.5 ;
                 rgba = tex2D(_MainTex, float2(m * _Repeat + _Time.y * _Speed, _Color));
 
-                rgba = iter; 
+                float angle = atan2(z.x, z.y); // define new angle to change over time from -pi to pi 
+                rgba *= smoothstep(4,0,iter); 
 
+                rgba *= 1 + sin(angle * 2+ _Time.y*4)*.2; // leaves move at same speed
+                                                        
                 return rgba;
             }
             ENDCG
