@@ -1,14 +1,5 @@
 // shader based on https://www.youtube.com/watch?v=kY7liQVPQSc
 //  z = z^2+c
-// every step, check how far you are from origin 
-// if you're past the radius of the outer circle), then escape the loop 
-// then take the number of iterations it took to end the loop and turn it into a color 
-
-
-// our distance will for sure be between the outer circle radius and the sq of that radius
-// if we can force the value to be mapped between 0-1, then we can add that small # to our iteration each time
-// that will smooth the iteration 
-
 
 Shader "Explorer/Mandelbrot"
 {
