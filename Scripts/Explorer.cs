@@ -3,7 +3,8 @@ using System.IO.Ports;
 
 public class Explorer : MonoBehaviour
 {
-    SerialPort sp = new SerialPort("COM3", 9600);
+    static SerialPort sp = new SerialPort(); // Create new SerialPort Object 
+
     public Material mat;
 
     public Vector2 pos;
@@ -13,11 +14,9 @@ public class Explorer : MonoBehaviour
     private float smoothScale, smoothAngle;
 
     private void Start()
-    {
-        
-            sp.Open();
-            sp.ReadTimeout = 1; 
-        
+    {    
+            sp.Open(); // open connection 
+            sp.ReadTimeout = 1;  
     }
     // to handle user input 
     private void UserInput()
@@ -28,34 +27,25 @@ public class Explorer : MonoBehaviour
             float s = Mathf.Sin(angle);
             float c = Mathf.Cos(angle);
 
-            // wasd (in, out, L, R)
+            // read bytes sent from arduino
             try
             {
                 if (sp.ReadByte() == 1)
+                {
                     //reduce scale by 1% each time
                     scale *= .99f;
+                    Debug.Log(sp.ReadByte());
+                }
 
-                // not working
-                if (sp.ReadByte() == 2)
-                    pos.x -= .002f * scale;
-
-                /*
-                if (Input.GetKey("s"))
-                    //increase scale by 1% each time
+                else if (sp.ReadByte() == 2)
+                {
                     scale *= 1.01f;
 
-
-                if (Input.GetKey("d"))
-                    pos.x += .002f * scale;
-
-                // qe rotation
-                if (Input.GetKey("e"))
-                    //reduce scale by 1% each time
-                    angle += .01f;
-                if (Input.GetKey("q"))
-                    //reduce scale by 1% each time
-                    angle -= .01f; */
+                    Debug.Log(sp.ReadByte());
+                } 
             }
+
+            // throw an error  
             catch (System.Exception) { }
         }
     }
