@@ -1,47 +1,68 @@
 using UnityEngine;
+using System.IO.Ports; 
 
 public class Explorer : MonoBehaviour
 {
-
+    SerialPort sp = new SerialPort("COM3", 9600);
     public Material mat;
 
     public Vector2 pos;
     private Vector2 smoothPos;
 
     public float scale, angle;
-    private float smoothScale, smoothAngle; 
+    private float smoothScale, smoothAngle;
 
+    private void Start()
+    {
+        
+            sp.Open();
+            sp.ReadTimeout = 1; 
+        
+    }
     // to handle user input 
     private void UserInput()
     {
-        // creating rotation for dir 
-        float s = Mathf.Sin(angle);
-        float c = Mathf.Cos(angle);
+        if (sp.IsOpen)
+        {
+            // creating rotation for dir 
+            float s = Mathf.Sin(angle);
+            float c = Mathf.Cos(angle);
 
-        // wasd (in, out, L, R)      
-        if (Input.GetKey("w"))
-            //reduce scale by 1% each time
-            scale *= .99f;        
-        if (Input.GetKey("a"))
-            pos.x -= .002f * scale;      
-        if (Input.GetKey("s"))
-            //increase scale by 1% each time
-            scale *= 1.01f;       
-        if (Input.GetKey("d"))
-            pos.x += .002f * scale;
+            // wasd (in, out, L, R)
+            try
+            {
+                if (sp.ReadByte() == 1)
+                    //reduce scale by 1% each time
+                    scale *= .99f;
 
-        // qe rotation
-        if (Input.GetKey("e"))
-            //reduce scale by 1% each time
-            angle += .002f;
-        if (Input.GetKey("q"))
-            //reduce scale by 1% each time
-            angle -= .002f;
+                // not working
+                if (sp.ReadByte() == 2)
+                    pos.x -= .002f * scale;
+
+                /*
+                if (Input.GetKey("s"))
+                    //increase scale by 1% each time
+                    scale *= 1.01f;
+
+
+                if (Input.GetKey("d"))
+                    pos.x += .002f * scale;
+
+                // qe rotation
+                if (Input.GetKey("e"))
+                    //reduce scale by 1% each time
+                    angle += .01f;
+                if (Input.GetKey("q"))
+                    //reduce scale by 1% each time
+                    angle -= .01f; */
+            }
+            catch (System.Exception) { }
+        }
     }
     private void UpdateShader()
     {
 
-        // LinearInerpolation( start_val - when t=0, end_val - when t=1, t - interpolant value) ) 
+        // Lerp( start_val - when t=0, end_val - when t=1, t - interpolant value) ) 
         // RETURNS start_val + (end_val - start_val) * t 
         // position will interpolate between #s
         smoothPos = Vector2.Lerp(smoothPos, pos, 0.03f);
