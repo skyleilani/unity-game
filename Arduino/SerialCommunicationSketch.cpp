@@ -4,6 +4,7 @@ void setup(){
   pinMode(6, INPUT);
   pinMode(7, INPUT);
 
+  // set default to be internal pullup resistor enabled 
   digitalWrite(6, HIGH);
   digitalWrite(7, HIGH);
 }
