@@ -12,10 +12,14 @@ void setup(){
 }
 
 void loop() { 
-  if(digitalRead(pin6_Button) == LOW) {
-    
+  if(digitalRead(pin6_Button) == LOW) {    
     Serial.write(2); 
     Serial.flush(); 
-    delay(20);
+    delay(10);
+  } 
+  else if (digitalRead(pin7_Button) == LOW) { 
+    Serial.write(1);
+    Serial.flush();
+    delay(10);
   }
 }
