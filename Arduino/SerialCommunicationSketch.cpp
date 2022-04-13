@@ -13,7 +13,7 @@ void setup(){
 
 void loop() { 
   if(digitalRead(pin6_Button) == LOW) {    
-    Serial.write(2); 
+    Serial.write(2); // binary instead of ASCII
     Serial.flush(); 
     delay(10);
   } 
