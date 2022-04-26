@@ -77,10 +77,16 @@ public class Explorer : MonoBehaviour
         // sets the interp_Angle float 
         mat.SetFloat("_Angle", smoothAngle);
     }
+    
+    void OnDisable()
+    {
+        sp.Close();
+    }
 
     void FixedUpdate()
     {
         UserInput(); 
         UpdateShader();
     }
+    
 }
