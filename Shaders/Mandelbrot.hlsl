@@ -1,3 +1,4 @@
+// shader based on https://www.youtube.com/watch?v=kY7liQVPQSc
 //  z = z^2+c
 
 Shader "Explorer/Mandelbrot"
@@ -6,22 +7,22 @@ Shader "Explorer/Mandelbrot"
     // there are 
     Properties
     {
-        // 2D texture/image
-        _MainTex("Texture", 2D) = "white" {}
+       
+        _MainTex("Texture", 2D) = "white" {}  // 2D texture/image
 
-        // holds area we will render (center, center, size, size) 
-        _Area("Area", vector) = (0, 0, 4 , 4)
+        
+        _Area("Area", vector) = (0, 0, 4 , 4) // holds area we will render (center, center, size, size) 
 
-            // range of -pi to pi in radians
-            _Angle("Angle", range(-3.1415, 3.1415)) = 0
+            
+            _Angle("Angle", range(-3.1415, 3.1415)) = 0 // range of -pi to pi in radians
 
-            _MaxIter("Iterations", range(4, 1000)) = 255
+            _MaxIter("Iterations", range(4, 1000)) = 255 // max number of iterations before deciding a point is in mandelbrot set
 
-            _Color("Color", range(0,1)) = .5
+            _Color("Color", range(0,1)) = .5 // color of the set
 
-            _Repeat("Repeat", float) = 1
-            _Speed("Speed", float) = 1
-            _Symmetry("Symmetry", range(0,1)) = 1
+            _Repeat("Repeat", float) = 1 // repeat the texture 
+            _Speed("Speed", float) = 1 // rotation speed 
+            _Symmetry("Symmetry", range(0,1)) = 1 // set symmetry 
 
 
     }
@@ -39,7 +40,8 @@ Shader "Explorer/Mandelbrot"
             #pragma fragment frag
 
             #include "UnityCG.cginc"
-
+            
+            // struct for vertex data 
             struct appdata
             {
                 float4 vertex : POSITION;
@@ -62,29 +64,25 @@ Shader "Explorer/Mandelbrot"
                 return o;
             }
 
-            // instantiate 
+            // instantiate properties 
             float4 _Area;
            
             float _MaxIter, _Angle, _Color, _Repeat, _Speed, _Symmetry;
             sampler2D _MainTex;
 
             // function rotate point in 2d space 
-            // og_p - original point
-            // piv_p -pivot point around w      // a - angle
             float2 rotate(float2 og_p, float piv_p, float a) {
 
                 float s = sin(a);
                 float c = cos(a);
 
-                // set og_p to 00
+                // set original point to (0,0)
                 og_p -= piv_p;
 
-                // rotate the original point 
-                // new x = original point's X * cosine(angle) - original point's Y *sin(angle) 
-                // new y = original point's X * sin(angle) + original point's Y * cosine(angle) 
+                // rotate point
                 og_p = float2(og_p.x * c - og_p.y * s, og_p.x * s + og_p.y * c);
 
-                // shift back to original pivot after rotation is done
+                // shift back to original pivot point
                 og_p += piv_p;
 
                 return og_p;
@@ -95,7 +93,7 @@ Shader "Explorer/Mandelbrot"
             {
 
                 // start position of pixel, initialized to uv coordinate. 
-                float2 uv = i.uv - .5; // uv centered around origin 
+                float2 uv = i.uv - .5; // center uv  around origin 
                 // four fold symmetry 
                 uv = abs(uv);
                 uv = rotate(uv, 0, .25 * 3.14159265);
